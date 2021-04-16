@@ -2,7 +2,9 @@
   <div id="app">
     <v-app id="inspire">
 
-      <header-bar />
+      <header-bar v-slot="{hello}">
+        <span @click="hello">Product Management</span>
+      </header-bar>
 
       <v-main>
         <v-container>
