@@ -34,7 +34,7 @@
               </v-text-field>
             </v-col>
             <v-col>
-            <FilterProduct :items="items" :callback="onFilterProducts"/>
+              <FilterProduct :items="items" :callback="onFilterProducts"/>
             </v-col>
           </v-row>
 
@@ -58,12 +58,14 @@ import { mapGetters, mapActions } from "vuex";
 // @ is an alias to /src
 import Product from "@/components/products/Product.vue";
 import FilterProduct from '@/components/FilterProduct.vue';
+import Dialog from '@/components/customeComponents/Dialog.vue';
 
 export default {
   name: "Home",
   components: {
     Product,
     FilterProduct,
+    Dialog,
   },
   data() {
     return {
@@ -128,7 +130,7 @@ export default {
 <style scoped>
 .itmeWaring {
   background-color: rgb(231, 72, 72);
-  opacity: 0.7;
+  opacity: 0.5;
 }
 .msg-no-product {
   margin-top: 200px;

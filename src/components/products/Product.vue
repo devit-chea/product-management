@@ -18,7 +18,7 @@
             <span v-else class="outOfStock">Out Of Stock</span>
           </v-card-subtitle>
           <v-card-actions>
-            <v-btn small color="error" @click="removeProduct(product.id)"> Delete </v-btn>
+            <v-btn small color="error" @click="dialog = true"> Delete </v-btn>
             <v-btn small color="cyan" @click="editProduct(product.id)"> Edit </v-btn> 
             <v-btn small color="primary" @click="viewProduct(product.id)"> view </v-btn> 
             <v-spacer></v-spacer>
@@ -37,6 +37,21 @@
         </v-card>
       </template>
     </v-hover>
+    <!-- Dialog Box -->
+    <v-row justify="center">
+    <v-dialog v-model="dialog" max-width="390">
+      <v-card>
+        <v-card-title class="headline">Delete Product</v-card-title>
+        <v-card-text>Are you sure you want to delete the product?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red darken-1" text @click="dialog = false">Cancel</v-btn>
+          <v-btn color="green darken-1" text  @click="removeProduct(product.id)">Ok</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+
   </div>
 </template>
 
@@ -62,6 +77,7 @@ export default {
   },
 
   data: () => ({
+    dialog: false,
     show: false,
 
     id: '',
