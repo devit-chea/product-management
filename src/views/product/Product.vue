@@ -5,7 +5,7 @@
         <v-col cols="12">
           <v-row>
             <v-col>
-              <h3>Products List</h3>
+              <h3>{{ title }}</h3>
             </v-col>
             <v-col cols="auto">
               <router-link to="/create/product">
@@ -34,7 +34,18 @@
               </v-text-field>
             </v-col>
             <v-col>
-              <FilterProduct :items="items" :callback="onFilterProducts"/>
+              <FilterProduct 
+                label="Price"
+                :items="items_price" 
+                :callback="onFilterPrice"
+              />
+            </v-col>
+            <v-col>
+              <FilterProduct 
+                label="Quantity"
+                :items="items_qty" 
+                :callback="onFilterQty"
+              />
             </v-col>
           </v-row>
 
@@ -69,31 +80,47 @@ export default {
   },
   data() {
     return {
-      // items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+      title: 'Products List',
+
       input: '',
-      filter: '',
-      items: [],
+      filter_price: '',
+      filter_qty: '',
+      items_price: [],
+      items_qty: [],
       item_length: '',
     };
   },
   created() {
-    this.checkUniquesArray();
+    this.checkUniquesPriceArray();
+    this.checkUniquesQtyArray();
   },
   methods: {
-    checkUniquesArray() {
+    /* Check uniques for Price and assign value to items_qty variable */
+    checkUniquesPriceArray() {
       const newArray = this.allProducts.map(element => element.price);
       const unique = [...new Set(newArray), 'All'];
-      this.items = unique.reverse();
-      console.log(this.items);
+      this.items_price = unique.reverse();
+      console.log(this.items_price);
     },
-    // ...mapActions(['filterProducts']),
-    onFilterProducts(value) {
-      this.filter = value;
+    /* Check uniques for Qty and assign value to items_qty variable */
+    checkUniquesQtyArray() {
+      const newArray = this.allProducts.map(element => element.quantity);
+      const unique = [...new Set(newArray), 'All'];
+      this.items_qty = unique.reverse();
+      console.log(this.items_qty);
     },
-
+    /* Assign value to filter_price variable */
+    onFilterPrice(value) {
+      this.filter_price = value;
+    },
+    /* Assign value to filter_qty variable */
+    onFilterQty(value) {
+      this.filter_qty = value;
+    },
+    /* Search Something Fun*/
     searchAndFilterProducts() {
-      console.log(this.allProducts);
       let productLists = this.allProducts
+      console.log('0 => ', this.filter_qty);
       // Process search input
       if (this.input != '' && this.input) {
         productLists = productLists.filter((item) => {
@@ -106,10 +133,18 @@ export default {
         })
       }
 
-      // Process filter input
-      else if (this.filter != '' && this.filter && this.filter !== 'All') {
+      // Process filter Price
+      else if (this.filter_price != '' && this.filter_price && this.filter_price !== 'All') {
         productLists = productLists.filter(product => {
-          return(product.price == this.filter);
+          return(product.price == this.filter_price);
+        });
+      }
+      // Process filter Qty
+      else if (this.filter_qty === 0 || this.filter_qty !== '' && this.filter_qty !== 'All') {
+        console.log('0 => ', this.filter_qty);
+        productLists = productLists.filter(product => {
+          console.log(product.quantity+'- '+ this.filter_qty);
+          return(product.quantity === this.filter_qty);
         });
       }
       this.item_length = productLists.length;
@@ -122,6 +157,7 @@ export default {
     }
   },
   computed: {
+    /* Access to store to get all products */
     ...mapGetters(['allProducts']),
   },
 };

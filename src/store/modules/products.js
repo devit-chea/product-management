@@ -15,7 +15,7 @@ const state = {
       name: "Laptop stand",
       description: "This guide is primarily for users with prior Vue 2 experience who want to learn about the new features and changes in Vue 3.",
       price: "24",
-      quantity: 10,
+      quantity: 9,
       image: "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg",
     },
     {

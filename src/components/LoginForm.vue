@@ -14,16 +14,14 @@
                         <v-divider></v-divider>
                         <v-card-text>
                         <p>Sign in with your username and password:</p>
+                        <p>Username: admin</p>
+                        <p>Password: Pa$$w0rd</p>
                         <v-form>
                             <v-text-field
                                 outline
                                 label="Username"
                                 type="text"
-                                v-model="input.username"
-                                :error-messages="usernameErrors"
-                                required
-                                @input="$v.username.$touch()"
-                                @blur="$v.username.$touch()"    
+                                v-model="input.username" 
                             >
                             </v-text-field>
                             <v-text-field
@@ -32,10 +30,6 @@
                                 label="Password"
                                 type="password"
                                 v-model="input.password"
-                                :error-messages="passwordErrors"
-                                required
-                                @input="$v.password.$touch()"
-                                @blur="$v.password.$touch()"  
                             >
                             </v-text-field>
                         </v-form>
@@ -56,16 +50,14 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
-import { validationMixin } from 'vuelidate';
 
 export default {
     name: "LoginForm",
     data() {
         return {
             input: {
-                username: 'admin',
-                password: 'Pa$$w0rd'
+                username: '',
+                password: ''
             }
         }
     },
@@ -76,33 +68,10 @@ export default {
                 this.$store.commit("setAuthentication", true);
                 this.$router.replace({name: "Products"});
             } else {
+                window.alert("Username or password incorrect!")
                 console.log("The username or password is not correct!");
             }
         }
-    },
-    validations: {
-        username: {
-            required,
-        },
-        password: {
-            required,
-        },
-    },
-
-    computed: {
-    /* Validation Create/Update form */
-        usernameErrors () {
-            const errors = []
-            if (!this.$v.username.$dirty) return errors
-            !this.$v.username.required && errors.push('Username is required.')
-            return errors
-        },
-        passwordErrors () {
-            const errors = []
-            if (!this.$v.password.$dirty) return errors
-            !this.$v.password.required && errors.push('Password is required.')
-            return errors
-        },
     },
 }
 </script>
